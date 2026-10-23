@@ -5,6 +5,27 @@ import requests
 
 st.set_page_config(page_title="6% Swing Strategy Screener", layout="wide")
 st.title("📈 6% Swing Trading Screener — NIFTY 500")
+if st.button("Test Telegram Connection"):
+    try:
+        token = st.secrets["TELEGRAM_BOT_TOKEN"]
+        chat_id = st.secrets["TELEGRAM_CHAT_ID"]
+
+        response = requests.post(
+            f"https://api.telegram.org/bot{token}/sendMessage",
+            data={
+                "chat_id": chat_id,
+                "text": "✅ Connected! Your stock scanner Telegram alerts are ready to test."
+            },
+            timeout=15,
+        )
+        response.raise_for_status()
+
+        if response.json().get("ok"):
+            st.success("Test message sent! Check Telegram.")
+        else:
+            st.error("Telegram did not accept the message.")
+    except Exception as e:
+        st.error(f"Telegram test failed: {e}")
 st.markdown("""
 **Active rules**
 - 10 EMA > 20 EMA
