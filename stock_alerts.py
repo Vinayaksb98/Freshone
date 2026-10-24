@@ -16,16 +16,30 @@ HEADERS = {
 }
 
 
+
 def send_message(message):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    response = requests.post(
-        url,
-        data={"chat_id": CHAT_ID, "text": message},
-        timeout=20,
-    )
-    response.raise_for_status()
-    if not response.json().get("ok"):
-        raise RuntimeError("Telegram rejected the message")
+
+    try:
+        response = requests.post(
+            url,
+            data={"chat_id": CHAT_ID, "text": message},
+            timeout=20,
+        )
+
+        print("Telegram HTTP status:", response.status_code)
+        print("Telegram response:", response.text[:1000])
+
+        response.raise_for_status()
+
+        result = response.json()
+        if not result.get("ok"):
+            raise RuntimeError(f"Telegram rejected message: {result}")
+
+    except Exception as exc:
+        print(f"TELEGRAM SEND ERROR: {type(exc).__name__}: {exc}")
+        raise
+
 
 
 def main():
