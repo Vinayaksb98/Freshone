@@ -9,7 +9,7 @@ from zoneinfo import ZoneInfo
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
-CSV_URL = "https://www.niftyindices.com/IndexConstituent/ind_nifty500list.csv"
+CSV_URL ="https://nsearchives.nseindia.com/content/indices/ind_nifty500list.csv"
 HEADERS = {
     "User-Agent": "Mozilla/5.0",
     "Referer": "https://www.niftyindices.com/",
