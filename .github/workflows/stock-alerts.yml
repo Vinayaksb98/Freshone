@@ -1,8 +1,11 @@
+
 name: Automatic Telegram Stock Alerts
 
 on:
   schedule:
-    - cron: "*/15 4-9 * * 1-5"
+    - cron: "45 3 * * 1-5"
+    - cron: "0,15,30,45 4-9 * * 1-5"
+    - cron: "0 10 * * 1-5"
   workflow_dispatch:
 
 permissions:
