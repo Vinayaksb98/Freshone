@@ -28,8 +28,19 @@ jobs:
       - name: Install packages
         run: pip install pandas requests yfinance
 
+      - name: Check schedule trigger
+        run: |
+          echo "Triggered at UTC:"
+          date -u
+          echo "Cron expression:"
+          echo '${{ github.event.schedule }}'
+          echo "Event:"
+          echo '${{ github.event_name }}'
+          echo "Branch:"
+          echo '${{ github.ref_name }}'
+
       - name: Scan stocks and send Telegram alerts
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python stock_alerts.py
+        run: python -u stock_alerts.py
