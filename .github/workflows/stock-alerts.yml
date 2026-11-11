@@ -3,9 +3,15 @@ name: Automatic Telegram Stock Alerts
 
 on:
   schedule:
-    - cron: "45 3 * * 1-5"
+    # 09:00 AM and 09:15 AM IST
+    - cron: "30,45 3 * * 1-5"
+
+    # 09:30 AM to 03:15 PM IST
     - cron: "0,15,30,45 4-9 * * 1-5"
+
+    # 03:30 PM IST
     - cron: "0 10 * * 1-5"
+
   workflow_dispatch:
 
 permissions:
@@ -26,16 +32,24 @@ jobs:
           python-version: "3.11"
 
       - name: Install packages
-        run: pip install pandas requests yfinance
-
-      - name: Check schedule trigger
         run: |
-          echo "Triggered at UTC:"
+          python -m pip install --upgrade pip
+          pip install pandas requests yfinance
+
+      - name: Verify execution time
+        run: |
+          echo "UTC time:"
           date -u
-          echo "Cron expression:"
+
+          echo "Indian time:"
+          TZ=Asia/Kolkata date
+
+          echo "Scheduled cron:"
           echo '${{ github.event.schedule }}'
+
           echo "Event:"
           echo '${{ github.event_name }}'
+
           echo "Branch:"
           echo '${{ github.ref_name }}'
 
